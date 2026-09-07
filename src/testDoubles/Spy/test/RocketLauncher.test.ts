@@ -35,8 +35,23 @@ describe('ロケット発射システム（RocketLauncherImpl）の認証機能�
     // さらに、モック関数を使って、認証の認証の成功・失敗の状態を Stubしてみましょう。
     // spyRocketもモック関数を使って実装してみましょう。モック関数を使うと、toHaveBeenCalled() などの便利なマッチャーが使えるようになります。
     it(`認証が通った場合、ロケットが発射される（モック関数を使った場合）。`, () => {
+        const rocketLauncher = new RocketLauncherImpl()
+        const stubRocket = { fire: vi.fn() }
+        const mockAuth = { authenticate: vi.fn().mockReturnValue(true) }
+
+        rocketLauncher.launch(stubRocket, mockAuth)
+
+        expect(stubRocket.fire).toHaveBeenCalled()
+
     })
 
     it(`認証が通らなかった場合、ロケットが発射されない（モック関数を使った場合）。`, () => {
+        const rocketLauncher = new RocketLauncherImpl()
+        const stubRocket = { fire: vi.fn() }
+        const mockAuth = { authenticate: vi.fn().mockReturnValue(false) }
+
+        rocketLauncher.launch(stubRocket, mockAuth)
+
+        expect(stubRocket.fire).not.toHaveBeenCalled()
     })
 })
